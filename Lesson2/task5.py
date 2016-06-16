@@ -2,7 +2,7 @@ from task4 import INPUT_FILE_NAME as inFile
 from task4 import outFile as printFile
 
 # Fifth task definition
-def doTask5():
+def do_task5():
     print '\n* Fifth task executed...*\n'
     # Output source file
     printFile(inFile, 'Source file:')
@@ -17,4 +17,4 @@ def doTask5():
 # Auto execute section
 if __name__ == '__main__':
     # Fifth task execution
-    doTask5()
+    do_task5()

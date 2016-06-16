@@ -1,5 +1,5 @@
 # Ninth task definition
-def doTask9():
+def do_task9():
     print '\n* Ninth task started...*\n'
 
     sumOfArgs = argSumFunction(1, 2, 3, 100, [200, 300, 400, [1,2,3,1]], (1000, 2000,), {10000, 20000})
@@ -44,4 +44,4 @@ def argSumFunction(*args):
 # Auto execute section
 if __name__ == '__main__':
     # Ninth task execution
-    doTask9()
+    do_task9()

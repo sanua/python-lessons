@@ -1,5 +1,5 @@
 # Seventh task definition
-def doTask7():
+def do_task7():
     print '\n* Seventh task started...*\n'
     lists = [[1, 2, 3, 4],
              [2, 4, 4, 2],
@@ -18,6 +18,6 @@ def mapFunction(*arg):
 # Auto execute section
 if __name__ == '__main__':
     # Seventh task execution
-    doTask7()
+    do_task7()
 
 

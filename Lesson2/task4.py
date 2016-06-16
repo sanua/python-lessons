@@ -10,7 +10,7 @@ OUTPUT_FILE_NAME = 'task4_reversed.py'
 # again PHP entry
 
 # Fourth task definition
-def doTask4():
+def do_task4():
     print '\n* Fourth task started...*\n'
     # Read file path
     # PycharmProjects/Python_Learning/Lesson2/task1.py
@@ -54,4 +54,4 @@ def outFile(fileName, *caption):
 # Auto execute section
 if __name__ == '__main__':
     # Fourth task execution
-    doTask4()
+    do_task4()

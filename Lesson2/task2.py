@@ -1,5 +1,5 @@
 # Second task definition
-def doTask2():
+def do_task2():
     print '\n* Second task started...*\n'
     foo(1, testFun)
     print '\n*** Second task done...***'
@@ -17,4 +17,4 @@ def foo(*params):
 # Auto execute section
 if __name__ == '__main__':
     # Second task execution
-    doTask2()
+    do_task2()

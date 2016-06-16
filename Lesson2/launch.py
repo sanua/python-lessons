@@ -1,43 +1,69 @@
 # Import all defined modules
-from task1 import doTask1 as doFirtsTaskExecution
-from task2 import doTask2 as doSecondTaskExecution
-from task3 import doTask3 as doThirdTaskExecution
-from task4 import doTask4 as doFourthTaskExecution
-from task5 import doTask5 as doFifthTaskExecution
-from task6 import doTask6 as doSixthTaskExecution
-from task7 import doTask7 as doSeventhTaskExecution
-from task8 import doTask8 as doEighthTaskExecution
-from task9 import doTask9 as doNinethTaskExecution
-from task10 import doTask10 as doTenthTaskExecution
+'''
+from task1 import do_task1 as f1
+from task2 import do_task2 as f2
+from task3 import do_task3 as f3
+from task4 import do_task4 as f4
+from task5 import do_task5 as f5
+from task6 import do_task6 as f6
+from task7 import do_task7 as f7
+from task8 import do_task8 as f8
+from task9 import do_task9 as f9
+from task10 import do_task10 as f10
+'''
+
+# Import modules name space
+from sys import modules
+
+# Iterate ovel all the modules and execute tasks
+C_MODULE_NAME_TEMPLATE = 'task'
+C_FUNCTION_NAME_TEMPLATE = 'do_task'
+
+for l_order in range(1, 11):
+    # Prepare module
+    l_mod_name = C_MODULE_NAME_TEMPLATE + str(l_order)
+    __import__(l_mod_name)
+    l_mod = modules[l_mod_name]
+    print 'Module name: %s, module: %s' % (l_mod_name, l_mod)
+
+    # Get function from module
+    l_func_name = C_FUNCTION_NAME_TEMPLATE + str(l_order)
+    l_func = getattr(l_mod, l_func_name)
+    print 'Function name: %s, function: %s' % (l_func_name, l_func)
+
+    # Execute function
+    l_func()
 
 # Execute all defined modules
+'''
 # Run task 1
-doFirtsTaskExecution()
+do_task1()
 
 # Run task 2
-doSecondTaskExecution()
+do_task2()
 
 # Run task 3
-doThirdTaskExecution()
+do_task3()
 
 # Run task 4
-doFourthTaskExecution()
+do_task4()
 
 # Run task 5
-doFifthTaskExecution()
+do_task5()
 
 # Run task 6
-doSixthTaskExecution()
+do_task6()
 
 # Run task 7
-doSeventhTaskExecution()
+do_task7()
 
 # Run task 8
-doEighthTaskExecution()
+do_task8()
 
 # Run task 9
-doNinethTaskExecution()
+do_task9()
 
 # Run task 10
-doTenthTaskExecution()
+do_task10()
 
+'''

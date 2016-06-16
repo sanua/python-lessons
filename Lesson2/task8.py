@@ -2,7 +2,7 @@ from task4 import INPUT_FILE_NAME as inFile
 import py_compile
 
 # Eighth task definition
-def doTask8():
+def do_task8():
     print '\n* Eigth task started...*\n'
 
     # Define file name to compile
@@ -31,4 +31,4 @@ def doTask8():
 # Auto execute section
 if __name__ == '__main__':
     # Eighth task execution
-    doTask8()
+    do_task8()

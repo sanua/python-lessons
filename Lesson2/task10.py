@@ -1,5 +1,5 @@
 # Tenth task definition
-def doTask10():
+def do_task10():
     print '\n* Tenth task started...*\n'
 
     # Parse passed value
@@ -33,4 +33,4 @@ def parseIntJSAnalog(stringValue, baseValue=10):
 # Auto execute section
 if __name__ == '__main__':
     # Tenth task execution
-    doTask10()
+    do_task10()

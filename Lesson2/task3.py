@@ -1,5 +1,5 @@
 # Third task definition
-def doTask3():
+def do_task3():
     print '\n* Third task started...*\n'
     initSet = 'characterset'
     asSet = {v for v in initSet}
@@ -13,4 +13,4 @@ def doTask3():
 # Auto execute section
 if __name__ == '__main__':
     # Third task execution
-    doTask3()
+    do_task3()

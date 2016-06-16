@@ -1,6 +1,6 @@
 
 # Sixth task definition
-def doTask6():
+def do_task6():
     print '\n* Sixth task started...*\n'
     sourceStr = u'\u0430\u0431\u0432\u0433'
 
@@ -18,4 +18,4 @@ def doTask6():
 # Auto execute section
 if __name__ == '__main__':
     # Sixth task execution
-    doTask6()
+    do_task6()
