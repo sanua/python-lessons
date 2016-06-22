@@ -1,13 +1,14 @@
 # Third task definition
 def do_task3():
     print '\n* Third task started...*\n'
-    initSet = 'characterset'
-    asSet = {v for v in initSet}
-    testStr = 'Test String'
-    for c in testStr:
-        if c in asSet:
-            print 'contain'
-    print asSet
+    init_set = set('characterset')
+
+    test_str = 'Test String'
+    test_set = set(test_str)
+
+    intersect_set = init_set.intersection(test_set)
+
+    print 'Initial set: %s, have %d entries from the string: "%s"' % (init_set, len(intersect_set), test_str)
     print '\n*** Third task done...***'
 
 # Auto execute section

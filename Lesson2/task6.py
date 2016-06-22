@@ -1,17 +1,18 @@
+# coding=utf8
+
 
 # Sixth task definition
 def do_task6():
     print '\n* Sixth task started...*\n'
-    sourceStr = u'\u0430\u0431\u0432\u0433'
+    source_str = 'абвг'
 
     # Visual checking of input
-    sourceStringInCharacter = sourceStr.encode('utf-8')
-    sourceStringInUnicode = str(list(hex(ord(singleChar)) for singleChar in sourceStr))
-    print 'Input string: \'%s\', in unicode (to visual checking purposes only): %s' % (sourceStringInCharacter, sourceStringInUnicode)
+    source_str_unicode = str(list(hex(ord(single_char)) for single_char in source_str))
+    print 'Input string: \'%s\', in unicode (to visual checking purposes only): %s' % (source_str, source_str_unicode)
 
     # Calculate character code sum
-    unicodeSum = sum(ord(single_char) for single_char in sourceStr)
-    print 'Sum of unicode values: %d' % unicodeSum
+    unicode_sum = sum(ord(single_char) for single_char in source_str)
+    print 'Sum of unicode values: %d, in hex: %s' % (unicode_sum, hex(unicode_sum))
 
     print '\n*** Sixth task done...***'
 

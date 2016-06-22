@@ -1,32 +1,31 @@
-from task4 import INPUT_FILE_NAME as inFile
-import py_compile
+from task4 import INPUT_FILE_NAME as in_file
+
 
 # Eighth task definition
 def do_task8():
-    print '\n* Eigth task started...*\n'
+    print '\n* Eight task started...*\n'
 
     # Define file name to compile
-    fName = __file__
-    #fName = inFile
+    f_name = __file__
+    # f_name = inFile
 
+    res = ''
     # Compile specified file
     try:
-        print 'Compiling module: \'%s\' ...' % fName
-        res = py_compile.compile(fName)
+        print 'Compiling module: \'%s\' ...' % f_name
+        source_file = open(f_name, 'r')
+        source_code = source_file.read()
+
+        source_compiled = compile(source_code, '', 'exec')
     except Exception, e:
-        res = str(e)
-
-    # Write compilation result
-    if res == None:
-        print 'No errors'
+        print 'Compilation error: %s' % e.message
     else:
-        print res
+        print 'No errors'
+    finally:
+        source_file.close()
 
-    '''
-        TODO: Seems that therte is no way to catching compilation errors, even in different external module... it's so pity (
-    '''
+    print '\n*** Eight task done...***'
 
-    print '\n*** Eigth task done...***'
 
 # Auto execute section
 if __name__ == '__main__':

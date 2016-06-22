@@ -1,14 +1,17 @@
-from task4 import INPUT_FILE_NAME as inFile
-from task4 import outFile as printFile
+from task4 import INPUT_FILE_NAME as in_file
+from task4 import out_file as print_file
+
 
 # Fifth task definition
 def do_task5():
     print '\n* Fifth task executed...*\n'
     # Output source file
-    printFile(inFile, 'Source file:')
+    print_file(in_file, 'Source file:')
+
     # Read file
-    readFile = file(inFile)
-    lines = readFile.readlines()
+    read_file = open(in_file)
+    lines = read_file.readlines()
+
     # Replace 'PHP' entries by the 'Python'
     result = [single_line.lower().replace('php', 'Python') for single_line in lines]
     print 'Replaced: \n%s' % result

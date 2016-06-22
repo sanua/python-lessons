@@ -1,11 +1,13 @@
 # Second task definition
 def do_task2():
     print '\n* Second task started...*\n'
-    foo(1, testFun)
+    foo(1, test_fun)
     print '\n*** Second task done...***'
 
-def testFun():
+
+def test_fun():
     return 'Function parameter'
+
 
 def foo(*params):
     for p in params:

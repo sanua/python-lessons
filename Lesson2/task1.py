@@ -6,5 +6,5 @@ def do_task1():
 
 # Auto execute section
 if __name__ == '__main__':
-    #First task execution
+    # First task execution
     do_task1()
