@@ -1,8 +1,6 @@
 import datetime as dt
 
-'''
-Order *******************************************************************
-'''
+
 # Definition of Order class
 class Order(list):
     # Class'es fields
@@ -15,26 +13,59 @@ class Order(list):
     # Common default value's fields
     date = dt.datetime.now()
 
+    __total_orders = 0
+
+    @classmethod
+    def get_total_orders(cls):
+        return Order.__total_orders
+
+    def get_files(self):
+        for e in (x for x in self if isinstance(x, DownloadableItem)):
+            yield e
+
     def __new__(cls, *args, **kwargs):
-        print 'Instance of {} created'.format(cls)
+        #print 'Instance of {} created'.format(cls)
         return super(Order, cls).__new__(cls, *args, **kwargs)
 
     def __init__(self, p_discount, *p_date):
         self._total_price = 0.0
         self._discount = p_discount
-        if p_date is not None:
-            self.date = p_date
+        if len(p_date) != 0:
+            self.date = p_date[0]
 
     # String presentation of Order's objects
     def __str__(self):
         import itertools as itl
-        itl.cycle()
-        return 'Order object; discount: {}, total price: {}, date: {}\nItems: {}'\
-            .format(self.discount, self.total_price, self.date, list)
+
+        l_items = (
+            (key,
+             len(list(group)),
+             round(sum([x.price if (x.name == key) else 0 for x in self]), 2)
+             )
+                for key, group in
+                   itl.groupby(
+                       sorted(l_order, key=lambda x: x.name + str(x.id)),
+                       key=lambda x: x.name
+                   )
+        )
+        return 'Order\'s discount: {} %, amount: {} $, date: {}' \
+               '\nItems:' \
+               '\n{}'\
+            .format(self.discount,
+                    self.total_price,
+                    self.date,
+                    '\n'.join(['\t\'{}\', {} pcs., ${};'.format(*x) for x in list(l_items)])
+                    )
 
     @property
     def discount(self):
         return self._discount
+
+    def __percent_discount(self, price):
+        if self.discount == 0:
+            return price
+        else:
+            return price - price *self.discount/100
 
     @discount.setter
     def discount(self, value):
@@ -57,19 +88,19 @@ class Order(list):
         if not isinstance(p_object, Item):
             raise TypeError('Only Item\'s type object can be added')
         else:
-            self._total_price += self.discount * p_object.price
-        super(Order, self).append(p_object)
+            self._total_price += self.__percent_discount(p_object.price)
+            self.date = dt.datetime.now()
+            Order.__total_orders += 1
+        super(Order, self).append( p_object)
 
     def remove(self, p_object):
         if not isinstance(p_object, Item):
             raise TypeError('Only Item\'s type object cam be processed')
         else:
-            self._total_price -= self.discount * p_object.price
-        super(Order, self).remove(self, p_object)
+            self._total_price -= self.__percent_discount(p_object.price)
+        super(Order, self).remove(p_object)
 
-'''
-Item ********************************************************************
-'''
+
 # Definition of Item class
 class Item(object):
     # Item's fields
@@ -86,25 +117,39 @@ class Item(object):
 
     # String presentation of Items's objects
     def __str__(self):
-        return 'Item object; id: {}, name: \'{}\', description: \'{}\', price: {}'\
+        return 'Item; id: {}, name: \'{}\', description: \'{}\', price: {}'\
             .format(self.id , self.name, self.description, self.price)
 
     def __new__(cls, *args, **kwargs):
-        print 'Instance of ' + str(cls) + ' created...'
+        #print 'Instance of ' + str(cls) + ' created...'
         return super(Item, cls).__new__(cls, *args, **kwargs)
 
-'''
-DownloadableItem ********************************************************
-'''
+
 # Definition of Downloadable Item class
 class DownloadableItem(Item):
     filename = '<filename>'
+    url = '<none>'
     downloads_count = 0
 
-    def __str__(self):
-        return '\nDownloadableItem object; filename: {}, downloads_count: {}\n'\
-            .format(self.filename, self.downloads_count)
+    def __init__(self, *arg):
+        super(DownloadableItem, self).__init__(arg[0], arg[1], arg[2], arg[3])
+        if (len(arg) > 4):
+            self.filename = arg[4]
+            self.url = arg[5]
 
+    def __str__(self):
+        return 'DownloadableItem; \n\t{},\n\tfilename: \'{}\', url: {}, downloads_count: \'{}\''\
+            .format(super(DownloadableItem, self).__str__(), self.filename, self.url, self.downloads_count)
+
+    def htmlize(func):
+        def wrapper_function(*args, **kwargs):
+            func(*args, **kwargs)
+            return '<a href="{file_url}">{file_url}</a>'.format(file_url=args[0].url)
+        return wrapper_function
+
+    @htmlize
+    def get_url(self):
+        self.downloads_count += 1
 
 class A(object):
     name = 'Object A'
@@ -144,27 +189,33 @@ class C(B, A):
 
 # Auto execute section
 if __name__ == '__main__':
-    # First task execution
 
+    # Create an Order with 10% discount
     l_order = Order(10)
+
+    # Add some items to order
     l_order.append(Item(1, 'Notebook', 'Asus notebook X202E', 345.50))
     l_order.append(Item(2, 'Phone', 'Apple smartpohone IPhone 6S', 975.00))
     l_order.append(Item(3, 'Camcoder', 'Panasonic mini DV camcode GS-500' , 925.10))
-    l_order.append(Item(4, 'Notebook', 'Apple MacBook Pro 15"', 1450.80))
+    l_order.append(Item(1, 'Notebook', 'Apple MacBook Pro 15"', 1450.80))
     l_order.append(Item(5, 'Phone', 'Nokia 3310', 7.50))
     l_order.append(Item(6, 'Camcoder', 'Cannon DV20', 800.50))
     l_order.append(Item(7, 'Notebook', 'Lenovo IdeaPad 100-15', 245.10))
     l_order.append(Item(8, 'Phone', 'Nokia E71', 145.00))
     l_order.append(Item(9, 'Notebook', 'Lenovo ThinkPad T410', 1400.00))
 
-    print '\n'
-    import itertools as it
-    for key, item_group in it.groupby(l_order, lambda x: getattr(x, 'name')):
-        #print key, item_group
-        for item in item_group:
-            print item.description, key
-        print ' '
+    # Add download item to order
+    l_order.append(DownloadableItem(10, 'Manual', 'Lenovo ThinkPad T410', 5.60, 'Manual for notebook', 'http://lenovo.com/manuals/t410'))
+    l_order.append(DownloadableItem(11, 'Book', 'Python for Dummy', 14.15, 'Safari\'s book', 'http://safari.com/books/pydummy'))
+    l_order.append(DownloadableItem(12, 'Manual', 'Nokia E71', 2.00, 'Manual for mobile', 'http://lenovo.com/manuals/t410'))
 
-things = [("animal", "bear"), ("animal", "duck"), ("plant", "cactus"), ("vehicle", "speed boat"), ("vehicle", "school bus")]
+    # View order content
+    print '\nOrder: {},\nTotal items: {}\n'.format(l_order, l_order.get_total_orders())
 
-
+    import random as rn
+    for i in l_order.get_files():
+        # Emulate multiple download to each Downloadable Item
+        [f() for f in [i.get_url]*rn.randint(1, 20)]
+        # Dispaly downloadable item
+        print i
+        print 'Html link: {}\n'.format(i.get_url())
