@@ -141,15 +141,28 @@ class DownloadableItem(Item):
         return 'DownloadableItem; \n\t{},\n\tfilename: \'{}\', url: {}, downloads_count: \'{}\''\
             .format(super(DownloadableItem, self).__str__(), self.filename, self.url, self.downloads_count)
 
-    def htmlize(func):
-        def wrapper_function(*args, **kwargs):
-            func(*args, **kwargs)
-            return '<a href="{file_url}">{file_url}</a>'.format(file_url=args[0].url)
-        return wrapper_function
+    def htmlize(*p_css_class):
+        def parametrized_decorator(func):
+            def wrapper_function(self, *args, **kwargs):
+                # Invoke target function to increment count of downloads
+                func(self, *args, **kwargs)
 
-    @htmlize
+                l_css_class = None
+                if len(p_css_class) > 0:
+                    l_css_class = p_css_class[0]
+
+                class_attr_str = ''
+                if l_css_class is not None and len(str.strip(l_css_class)) > 0:
+                    class_attr_str = 'class="{css_class}" '.format(css_class=l_css_class)
+
+                return '<a {class_placeholder}href="{file_url}">{file_url}</a>'.format(file_url=self.url, class_placeholder=class_attr_str)
+            return wrapper_function
+        return parametrized_decorator
+
+    @htmlize('test')
     def get_url(self):
         self.downloads_count += 1
+
 
 class A(object):
     name = 'Object A'
@@ -189,6 +202,7 @@ class C(B, A):
 
 # Auto execute section
 if __name__ == '__main__':
+# First part
 
     # Create an Order with 10% discount
     l_order = Order(10)
@@ -219,3 +233,5 @@ if __name__ == '__main__':
         # Dispaly downloadable item
         print i
         print 'Html link: {}\n'.format(i.get_url())
+
+# Second part
