@@ -341,3 +341,23 @@ print 'Current sum is {}.'.format(gc.get_amount)
 
 # 2.3 definition
 print '\n'
+import functools as ft
+import datetime as dt
+
+l_date_strings = ["12 Jan 1989",
+                  "13 Feb 1990",
+                  "14 Mar 1991",
+                  "15 Apr 1992",
+                  "16 May 1993",
+                  "16 Jun 1994"]
+
+
+def parse_date(*args, **kwargs):
+    return dt.datetime.strptime(args[1], args[0])
+
+l_converted_dates = map(
+    ft.partial(parse_date, '%d %b %Y'),
+    l_date_strings
+)
+
+print 'Source strings dates:\n\t{},\nConverted dates:\n\t{}'.format('\n\t'.join(l_date_strings), '\n\t'.join([str(e) for e in l_converted_dates]))
