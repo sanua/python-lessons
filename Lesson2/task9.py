@@ -1,47 +1,64 @@
 # Ninth task definition
-def doTask9():
+def do_task9():
     print '\n* Ninth task started...*\n'
 
-    sumOfArgs = argSumFunction(1, 2, 3, 100, [200, 300, 400, [1,2,3,1]], (1000, 2000,), {10000, 20000})
-    print 'Sum of arguments: ', sumOfArgs
+    # sum_of_ags = number_and_collection_arg_sum_function(1, 2, 3, 100, [200, 300, 400, [1, 2, 3, 1]], (1000, 2000,), {10000, 20000})
+    sum_of_ags = number_arg_sum_function(1, 2, 3, 100, )
+    print 'Sum of arguments: ', sum_of_ags
 
     print '\n*** Ninth task done...***'
 
-def argSumFunction(*args):
-    #================ Auxilary function to process lists ================
-    def listSum(listArg):
+
+def number_and_collection_arg_sum_function(*args):
+    # ================ Auxiliary function to process lists ================
+    def list_sum(list_arg):
         # Check if function has arguments
         if (len(args)) == 0:
             return 0
 
-        internalSum = 0
-        for e in listArg:
+        internal_sum = 0
+        for e in list_arg:
             if isinstance(e, list) or isinstance(e, tuple) or isinstance(e, set):
-                internalSum += listSum(e)
+                internal_sum += list_sum(e)
             else:
-                internalSum += e
+                internal_sum += e
         else:
-            return internalSum
-    #=====================================================================
+            return internal_sum
+    # =====================================================================
 
     # Check if function has arguments
     if (len(args)) == 0:
         return 0
 
     # Evaluate sum
-    sumResult = 0
+    sum_result = 0
     for single_arg in args:
         if isinstance(single_arg, int):
-            sumResult += single_arg
+            sum_result += single_arg
         elif isinstance(single_arg, list) or isinstance(single_arg, tuple) or isinstance(single_arg, set):
-            sumResult += listSum(single_arg)
+            sum_result += list_sum(single_arg)
         else:
             raise TypeError
 
-    # return resuklt
-    return sumResult
+    return sum_result
+
+def number_arg_sum_function(*args):
+    # Check if function has arguments
+    if (len(args)) == 0:
+        return 0
+
+    # Evaluate sum
+    sum_result = 0
+    for single_arg in args:
+        if isinstance(single_arg, int):
+            sum_result += single_arg
+        else:
+            raise TypeError('Only numbers allowed')
+
+    return sum_result
+
 
 # Auto execute section
 if __name__ == '__main__':
     # Ninth task execution
-    doTask9()
+    do_task9()

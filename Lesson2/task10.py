@@ -1,36 +1,31 @@
 # Tenth task definition
-def doTask10():
+def do_task10():
     print '\n* Tenth task started...*\n'
 
+    l_string_value, l_base_value = '1012100', 8
+
     # Parse passed value
-    parseResult = parseIntJSAnalog('1012100', 16)
-    print 'Parsed string in specific base: %s' % parseResult
+    for i in range(0, 100):
+        parse_result = parse_int(l_string_value, i)
+        print 'Parsed string: {0} in {1} base is: {2}'.format(l_string_value, i, parse_result)
 
     print '\n*** Tenth task done...***'
 
+
 # Parse function
-def parseIntJSAnalog(stringValue, baseValue=10):
-    result = 0
-    value = int(stringValue)
+def parse_int(p_string, p_base=10):
+    l_result, l_number = 0, 0
+    try:
+        l_number = int(p_string, p_base)
+        l_result = '{0:d}'.format(l_number)
 
-    if baseValue == 2:
-        # binary base
-        result = '{0:b}'.format(value)
-    elif baseValue == 8:
-        # octal base
-        baseValue = '{0:o}'.format(value)
-    elif baseValue == 10:
-        # decimal base
-        result = '{0:d}'.format(value)
-    elif baseValue == 16:
-        # heximal base
-        result = '{0:x}'.format(value)
-    else:
-        raise RuntimeError
+    except ValueError, e:
+        l_result = None
+        # print 'Conversion error: {0}\n'.format(e.message)
 
-    return result
+    return l_result
 
 # Auto execute section
 if __name__ == '__main__':
     # Tenth task execution
-    doTask10()
+    do_task10()
