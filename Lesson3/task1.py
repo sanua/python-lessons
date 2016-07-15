@@ -8,18 +8,13 @@ from mercurial.hgweb.webutil import up
 
 
 class Order(list):
-    # Class'es fields
+    """Class instance fields:
 
-    '''
-        # Instance fields:
+        discount
+        total_price
+        date
 
-        discount = 0
-        total_price = 0.0
-    '''
-
-    # Common default value's fields
-    date = dt.datetime.now()
-
+    """
     __total_orders = 0
 
     @classmethod
@@ -31,18 +26,17 @@ class Order(list):
             yield e
 
     def __new__(cls, *args, **kwargs):
-        # print 'Instance of {} created'.format(cls)
         return super(Order, cls).__new__(cls, *args, **kwargs)
 
-    def __init__(self, p_discount, *p_date):
+    def __init__(self, p_discount, p_date=None):
         self._total_price = 0.0
         self._discount = p_discount
-        if len(p_date) != 0:
-            self.date = p_date[0]
+        if p_date is not None:
+            self.date = p_date
+        else:
+            self.date = dt.datetime.now()
 
     # String presentation of Order's objects
-    '[]'
-
     def __str__(self):
         import itertools as itl
 
@@ -83,12 +77,6 @@ class Order(list):
         else:
             raise ValueError('Discount should be in range [0..99]')
 
-    '''
-    @discount.deleter
-    def discount(self):
-        del self._discount
-    '''
-
     @property
     def total_price(self):
         return self._total_price
@@ -112,13 +100,14 @@ class Order(list):
 
 # Definition of Item class
 class Item(object):
-    # Item's fields
-    id = 0
-    name = '<name>'
-    description = '<description>'
-    price = 0.0
+    """Class instance fields
 
-    def __init__(self, p_id, p_name, p_description, p_price):
+        id
+        name
+        description
+        price
+    """
+    def __init__(self, p_id, p_name, p_description=None, p_price=0.0):
         self.id = p_id
         self.name = p_name
         self.description = p_description
@@ -130,15 +119,18 @@ class Item(object):
             .format(self.id , self.name, self.description, self.price)
 
     def __new__(cls, *args, **kwargs):
-        #print 'Instance of ' + str(cls) + ' created...'
         return super(Item, cls).__new__(cls, *args, **kwargs)
 
 
 # Definition of Downloadable Item class
 class DownloadableItem(Item):
-    filename = '<filename>'
-    url = '<none>'
-    downloads_count = 0
+    """Class instance fields
+
+        filename
+        url
+        downloads_count
+    """
+    url = None
 
     def __init__(self, *arg):
         super(DownloadableItem, self).__init__(arg[0], arg[1], arg[2], arg[3])
