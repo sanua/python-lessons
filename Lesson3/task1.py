@@ -26,6 +26,7 @@ class Order(list):
             yield e
 
     def __new__(cls, *args, **kwargs):
+        cls.__total_orders += 1
         return super(Order, cls).__new__(cls, *args, **kwargs)
 
     def __init__(self, p_discount, p_date=None):
@@ -68,7 +69,7 @@ class Order(list):
         if self.discount == 0:
             return price
         else:
-            return price - price *self.discount/100
+            return price - price * self.discount/100
 
     @discount.setter
     def discount(self, value):
@@ -79,22 +80,21 @@ class Order(list):
 
     @property
     def total_price(self):
+        for it in self:
+            if isinstance(it, Item):
+                self._total_price += self.__percent_discount(it.price)
         return self._total_price
 
     def append(self, p_object):
         if not isinstance(p_object, Item):
             raise TypeError('Only Item\'s type object can be added')
         else:
-            self._total_price += self.__percent_discount(p_object.price)
             self.date = dt.datetime.now()
-            Order.__total_orders += 1
         super(Order, self).append( p_object)
 
     def remove(self, p_object):
         if not isinstance(p_object, Item):
             raise TypeError('Only Item\'s type object cam be processed')
-        else:
-            self._total_price -= self.__percent_discount(p_object.price)
         super(Order, self).remove(p_object)
 
 
@@ -130,13 +130,12 @@ class DownloadableItem(Item):
         url
         downloads_count
     """
-    url = None
 
-    def __init__(self, *arg):
-        super(DownloadableItem, self).__init__(arg[0], arg[1], arg[2], arg[3])
-        if (len(arg) > 4):
-            self.filename = arg[4]
-            self.url = arg[5]
+    def __init__(self, p_id, p_name, p_description=None, p_price=0.0, p_file_name=None, p_url=None):
+        super(DownloadableItem, self).__init__(p_id, p_name, p_description, p_price)
+        self.filename = p_file_name
+        self.url = p_url
+        self.downloads_count = 0
 
     def __str__(self):
         return 'DownloadableItem; \n\t{},\n\tfilename: \'{}\', url: {}, downloads_count: \'{}\''\
