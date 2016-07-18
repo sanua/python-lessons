@@ -2,7 +2,7 @@ import functools as ft
 import datetime as dt
 import random as rn
 
-
+# 2.1 definition
 class CustomUniqueRandom(object):
 
     def __init__(self, p_lower_bound,  p_upper_bound):
@@ -35,14 +35,15 @@ class CustomUniqueRandom(object):
                 return l_int
 
 # 2.1 result
-ur = CustomUniqueRandom(10123, 10128)
+l_lower_gen, l_upper_gen = 10123, 10128
+print 'Generated elements from {} to {} i random order:'.format(l_lower_gen, l_upper_gen)
+ur = CustomUniqueRandom(l_lower_gen, l_upper_gen)
+print '\t',
 for i in ur:
+
     print i,
 
 # 2.2 definition
-print '\n'
-
-
 class GeneratorClass(object):
     def __init__(self, p_number_lower_bound, p_number_upper_bound, p_bound_sum):
         # Internal fields
@@ -78,15 +79,15 @@ class GeneratorClass(object):
     def get_amount(self):
         return self._current_sum
 
+# 2.2 result
 gc = GeneratorClass(10, 17, 108)
-print 'Generate numbers from {} to {}, till sum less than {}.'.format(gc.get_from, gc.get_to, gc.get_till)
+print '\n\nGenerate numbers from {} to {}, till sum less than {}.'.format(gc.get_from, gc.get_to, gc.get_till)
+print '\t',
 for i in gc.generator():
-    print i
-print 'Current sum is {}.'.format(gc.get_amount)
+    print i,
+print '\nCurrent sum is {}.'.format(gc.get_amount)
 
 # 2.3 definition
-print '\n'
-
 l_date_strings = ["12 Jan 1989",
                   "13 Feb 1990",
                   "14 Mar 1991",
@@ -103,4 +104,5 @@ l_converted_dates = map(
     l_date_strings
 )
 
-print 'Source strings dates:\n\t{},\nConverted dates:\n\t{}'.format('\n\t'.join(l_date_strings), '\n\t'.join([str(e) for e in l_converted_dates]))
+# 2.3 result
+print '\nSource strings dates:\n\t{},\nConverted dates:\n\t{}'.format('\n\t'.join(l_date_strings), '\n\t'.join([str(e) for e in l_converted_dates]))
