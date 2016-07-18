@@ -14,8 +14,8 @@ class Order(list):
     __total_orders = 0
 
     def __init__(self, p_discount, p_date=None):
-        self._total_price = 0.0
         self._discount = p_discount
+        self._total_price = 0.0
         if p_date is not None:
             self.date = p_date
         else:
