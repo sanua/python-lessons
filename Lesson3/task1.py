@@ -37,8 +37,13 @@ class Order(list):
             raise TypeError('Only Item\'s type object cam be processed')
         super(Order, self).remove(p_object)
 
+    def insert(self, index, p_object):
+        if not isinstance(p_object, Item):
+            raise TypeError('Only Item\'s type object cam be processed')
+        super(Order, self).insert(index, p_object)
+
     # String presentation of Order's objects
-    def __repr__(self):
+    def __str__(self):
         l_items = (
             (key,
              len(list(group)),
@@ -62,6 +67,9 @@ class Order(list):
                     len(self),
                     self.get_total_orders()
                     )
+
+    def __repr__(self):
+        return self.__str__()
 
     @property
     def discount(self):
@@ -92,8 +100,7 @@ class Order(list):
             return price - price * self.discount/100
 
     def get_files(self):
-        for e in (x for x in self if isinstance(x, DownloadableItem)):
-            yield e
+        return (x for x in self if isinstance(x, DownloadableItem))
 
 
 # Definition of Item class
@@ -120,6 +127,26 @@ class Item(object):
             .format(self.id , self.name, self.description, self.price)
 
 
+# **** Decorators ****
+def htmlize(p_css_class=None):
+    def parametrized_decorator(func):
+        def wrapper_function(*args, **kwargs):
+            # Invoke target function to increment count of downloads
+            file_url = func(*args, **kwargs)
+
+            class_attr_str = ''
+            if p_css_class is not None and p_css_class.strip():
+                class_attr_str = 'class="{css_class}" '.format(css_class=p_css_class)
+
+            return '<a {class_placeholder}href="{file_url}">{file_url}</a>' \
+                .format(file_url=file_url, class_placeholder=class_attr_str)
+
+        return wrapper_function
+
+    return parametrized_decorator
+# **** EOF Decorators ****
+
+
 # Definition of Downloadable Item class
 class DownloadableItem(Item):
     """ Class instance fields:
@@ -131,34 +158,17 @@ class DownloadableItem(Item):
     def __init__(self, p_id, p_name, p_description=None, p_price=0.0, p_file_name=None, p_url=None):
         super(DownloadableItem, self).__init__(p_id, p_name, p_description, p_price)
         self.filename = p_file_name
-        self.url = p_url
+        self.__url = p_url
         self.downloads_count = 0
 
     def __repr__(self):
         return 'DownloadableItem; \n\t{},\n\tfilename: \'{}\', url: {}, downloads_count: \'{}\''\
-            .format(super(DownloadableItem, self).__repr__(), self.filename, self.url, self.downloads_count)
-
-    def htmlize(*p_css_class):
-        def parametrized_decorator(func):
-            def wrapper_function(self, *args, **kwargs):
-                # Invoke target function to increment count of downloads
-                func(self, *args, **kwargs)
-
-                l_css_class = None
-                if len(p_css_class) > 0:
-                    l_css_class = p_css_class[0]
-
-                class_attr_str = ''
-                if l_css_class is not None and len(str.strip(l_css_class)) > 0:
-                    class_attr_str = 'class="{css_class}" '.format(css_class=l_css_class)
-
-                return '<a {class_placeholder}href="{file_url}">{file_url}</a>'.format(file_url=self.url, class_placeholder=class_attr_str)
-            return wrapper_function
-        return parametrized_decorator
+            .format(super(DownloadableItem, self).__repr__(), self.filename, self.__url, self.downloads_count)
 
     @htmlize('test')
     def get_url(self):
         self.downloads_count += 1
+        return self.__url
 
 
 # ******************** Some investigation of Python's MRO ********************

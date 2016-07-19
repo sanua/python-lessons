@@ -24,7 +24,7 @@ class CustomUniqueRandom(object):
             raise StopIteration
         else:
             l_int = generate_int()
-            while self._number_pool_set.__contains__(l_int) and len(self._number_pool_set) < self._number_pool_amount:
+            while l_int in self._number_pool_set and len(self._number_pool_set) < self._number_pool_amount:
                 l_int = generate_int()
             else:
                 self._number_pool_set.add(l_int)
