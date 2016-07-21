@@ -118,9 +118,6 @@ class Item(object):
         self.description = p_description
         self.price = p_price
 
-    def __new__(cls, *args, **kwargs):
-        return super(Item, cls).__new__(cls, *args, **kwargs)
-
     # String presentation of Items's objects
     def __repr__(self):
         return 'Item; id: {}, name: \'{}\', description: \'{}\', price: {}'\
