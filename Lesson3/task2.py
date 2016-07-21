@@ -61,7 +61,7 @@ class GeneratorClass(object):
                 self._current_sum += i
                 yield i
             else:
-                raise StopIteration
+                return
 
     @property
     def get_from(self):
