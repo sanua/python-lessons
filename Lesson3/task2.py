@@ -40,7 +40,6 @@ print 'Generated elements from {} to {} i random order:'.format(l_lower_gen, l_u
 ur = CustomUniqueRandom(l_lower_gen, l_upper_gen)
 print '\t',
 for i in ur:
-
     print i,
 
 # 2.2 definition
